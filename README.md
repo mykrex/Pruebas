@@ -2,18 +2,24 @@
 
 Este primer commit es para probar y investigar asi como aprender sobre el docTR
 
-pip install python-doctr
+La documentacion recomienda hacer : pip install python-doctr
 
 ´´´
 Se debe trabajar con img ya que el preprocesador de Andres va a ajustar las imagenes
 ´´´
 
-Cree una maquina virtual para probarlo:
+# Maquina virtual para probarlo:
 
 python -m venv venv
 
-# Cambio
+# Dependencias
 
-Al final termine instalando python-doctr para pytorch
+pip install "python-doctr[torch]" <- Esto lo hice asi por recomendacion debido a que trabajaremos con PyTorch
 
-pip install "python-doctr[torch]"
+pip install matplotlib mplcursors
+
+# EN MI MAQUINA
+
+Creo que instale esto en el ambiente global cuando quise correr el try.py
+
+Tengo que checar bien desde que carpeta creo el ambiente y lo que quiero usar (sources) asi como lo que necesite correr (files)
