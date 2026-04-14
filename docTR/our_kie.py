@@ -19,3 +19,5 @@ for class_name in predictions.keys():
 # Sintetizar lo que se ha detectado y reconocido, y mostrarlo
 synthetic_pages = result.synthesize()
 plt.imshow(synthetic_pages[0]); plt.axis('off'); plt.show()
+
+## PROBAR CON spaCy para el análisis de las entidades reconocidas

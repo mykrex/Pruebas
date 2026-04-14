@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt # Probar con Matplotlib
 model = ocr_predictor(det_arch='db_resnet50', reco_arch='crnn_vgg16_bn', pretrained=True)
 
 # Se pude leer 1 o mas imagenes, asi como PDFs con multiples paginas
-img_doc = DocumentFile.from_images("public/minecraft_wikipedia.png")
+img_doc = DocumentFile.from_images("public/doc3.png")
 
 # Hacer la prediccion
 result = model(img_doc)
