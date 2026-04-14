@@ -1,5 +1,9 @@
 venv/
 
+public/
+**/public/
+!public/
+
 doc1.png
 doc2.png
 doc3.png

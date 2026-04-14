@@ -38,9 +38,3 @@ python -m spacy download en_core_web_sm
 
 Donut (Document Understanding Transformer)
 No necesita OCR separado — lee la imagen directamente y extrae campos estructurados de una vez.
-
-# En mi maquina
-
-Creo que instale esto en el ambiente global cuando quise correr el try.py
-
-Tengo que checar bien desde que carpeta creo el ambiente y lo que quiero usar (sources) asi como lo que necesite correr (files)
