@@ -18,7 +18,28 @@ pip install "python-doctr[torch]" <- Esto lo hice asi por recomendacion debido a
 
 pip install matplotlib mplcursors
 
-# EN MI MAQUINA
+# Flujo
+
+OCR -> Filtrar caracteres latinos [Ingles] -> spaCy
+
+# spaCy
+
+Para el análisis de las entidades reconocidas
+
+´´´
+
+pip install spacy
+
+python -m spacy download en_core_web_sm
+
+´´´
+
+# Alternativa para identificar los datos del documento
+
+Donut (Document Understanding Transformer)
+No necesita OCR separado — lee la imagen directamente y extrae campos estructurados de una vez.
+
+# En mi maquina
 
 Creo que instale esto en el ambiente global cuando quise correr el try.py
 

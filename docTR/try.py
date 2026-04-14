@@ -1,6 +1,5 @@
 from doctr.io import DocumentFile # Para cargar documentos
 from doctr.models import ocr_predictor #Importamos el predictor de DocTR
-from doctr.models import kie_predictor # KIE predictor, puede extraer entidades de los docs
 
 import matplotlib.pyplot as plt # Probar con Matplotlib
 

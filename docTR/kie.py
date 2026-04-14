@@ -1,5 +1,5 @@
 from doctr.io import DocumentFile
-from doctr.models import kie_predictor
+from doctr.models import kie_predictor # KIE predictor, puede extraer entidades de los docs
 import matplotlib.pyplot as plt 
 
 # Model for Key Information Extraction
