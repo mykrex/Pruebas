@@ -5,7 +5,7 @@ Este primer commit es para probar y investigar asi como aprender sobre el docTR
 La documentacion recomienda hacer : pip install python-doctr
 
 ´´´
-Se debe trabajar con img ya que el preprocesador de Andres va a ajustar las imagenes
+Se debe trabajar con img
 ´´´
 
 # Maquina virtual para probarlo:
