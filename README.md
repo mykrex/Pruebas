@@ -23,3 +23,5 @@ pip install matplotlib mplcursors
 Creo que instale esto en el ambiente global cuando quise correr el try.py
 
 Tengo que checar bien desde que carpeta creo el ambiente y lo que quiero usar (sources) asi como lo que necesite correr (files)
+
+## NO SUBIR TU VISA A GITHUB
