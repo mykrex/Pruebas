@@ -38,3 +38,17 @@ python -m spacy download en_core_web_sm
 
 Donut (Document Understanding Transformer)
 No necesita OCR separado — lee la imagen directamente y extrae campos estructurados de una vez.
+
+# Prueba con PaddleOCR
+
+pip install "paddlepaddle>=3.0"
+
+pip install paddleocr
+
+## Pendiente:
+
+´´´
+
+Separar entre los caracteres latinos y no latinos, probar con los preprocesados ya
+
+´´´

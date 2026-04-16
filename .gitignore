@@ -3,9 +3,17 @@ venv/
 public/
 **/public/
 !public/
+docTR//public/
 
 doc1.png
 doc2.png
 doc3.png
 docN.png
 docM.png
+
+readme2.md
+docN_resultado_P1.jpg
+pam_resultado.jpg
+pam.png
+visa2.png
+result.jpg
