@@ -76,6 +76,7 @@ KIE_PATTERNS = {
 # ─────────────────────────────────────────────
 # ETAPA 1: EXTRACCIÓN DE TEXTO (API v3.x)
 # ─────────────────────────────────────────────
+MAX_SIDE = 1400
 
 def cargar_imagen_rgb(ruta: str) -> np.ndarray:
     """
@@ -84,6 +85,15 @@ def cargar_imagen_rgb(ruta: str) -> np.ndarray:
     """
     img = PILImage.open(ruta)
     img = img.convert("RGB")      # cubre RGBA, L, P y cualquier otro modo
+    w, h = img.size
+    lado_mayor = max(w, h)
+    if lado_mayor > MAX_SIDE:
+        factor = MAX_SIDE / lado_mayor
+        nuevo_w = int(w * factor)
+        nuevo_h = int(h * factor)
+        img = img.resize((nuevo_w, nuevo_h), PILImage.LANCZOS)
+        print(f"  Imagen redimensionada: {w}x{h} → {nuevo_w}x{nuevo_h}")
+
     return np.array(img)
 
 
@@ -189,6 +199,11 @@ def separar_por_idioma(lineas):
             linea["idioma_detectado"] = idioma
             grupos[idioma].append(linea)
 
+    print("\n── LÍNEAS MIXTAS RECUPERADAS ──")
+    for l in grupos["english"]:
+        if l.get("fue_mixta"):
+            print(f"  original: {l['texto_original']}")
+            print(f"  limpio:   {l['texto']}")
     return grupos
 
 
