@@ -329,7 +329,7 @@ if __name__ == "__main__":
         use_textline_orientation=False,      # innecesario para documentos ya limpios
     )
 
-    resultado = procesar_imagen("public/doc3.png", ocr)
+    resultado = procesar_imagen("public/visa_p1.png", ocr)
 
     print("\n── RESULTADO FINAL ──")
     print(json.dumps(resultado["entidades"], indent=2, ensure_ascii=False))

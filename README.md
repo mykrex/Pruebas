@@ -52,3 +52,14 @@ pip install paddleocr
 Separar entre los caracteres latinos y no latinos, probar con los preprocesados ya
 
 ´´´
+
+# REDIMENSIONAR
+
+- ¿Si uso el de easy ocuparia redimensionar de igual forma?
+- Con la tarjeta y la visa:
+  - SACAR IDENTIDADES CON:
+    - REGEX
+    - SPACY
+  - CON :
+    - EASY
+    - PADDLE
