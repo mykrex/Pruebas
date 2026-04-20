@@ -1,5 +1,5 @@
 """
-Pipeline OCR para documentos oficiales — PaddleOCR v3.x
+Pipeline OCR para documentos oficiales de India — PaddleOCR v3.x
 =================================================================
 Flujo:
   1. Extracción de todo el texto con PaddleOCR (lang="hi")
@@ -23,7 +23,7 @@ from paddleocr import PaddleOCR
 
 
 # ─────────────────────────────────────────────
-# SETUP
+# CONFIGURACIÓN
 # ─────────────────────────────────────────────
 
 CONFIDENCE_THRESHOLD = 0.7
@@ -52,45 +52,53 @@ INDIAN_SCRIPT_RANGES = [
     (0x0D00, 0x0D7F),  # Malayalam
 ]
 
-# Patrones KIE para documentos oficiales
-# Usando REGEX
+# Palabras clave que indican el inicio de un nuevo campo — el nombre para cuando las encuentra
+# Esto evita que el regex del nombre capture campos adyacentes
+_FIELD_KEYWORDS = (
+    r"passport|visa\s*type|no\s*of\s*entries|date\s*of|issue|expir|expiry|"
+    r"endorsement|nationality|gender|sex|dob|birth|address|father|mother|"
+    r"blood|signature|code|state|type|number|aadhaar|pan|dl\b|entries"
+)
+
+# Patterns for KIE
 KIE_PATTERNS = {
-    # Nombre: requiere etiqueta explícita (name:, full name:, etc.)
-    # El valor debe tener al menos 2 palabras con 2+ letras cada una
-    # y no puede ser solo palabras de encabezado de documento
+    # Nombre: solo línea por línea, captura hasta fin de línea o hasta keyword de campo
+    # Non-greedy + lookahead para parar antes del próximo campo
     "name": [
-        r"(?:^|\b)(?:full\s+name|name|applicant\s*name|surname\s*and\s*given\s*name)[:\s]+([A-Za-z][A-Za-z\s\.]{3,})",
+        r"(?:full\s+name|name|applicant\s*name|surname\s*(?:and\s*given\s*name)?)"
+        r"[:/\s]+([A-Za-z][A-Za-z\s\.]{1,50}?)(?=\s*(?:" + _FIELD_KEYWORDS + r")|$)",
     ],
+    # Fechas: todas aceptan variantes de separador y espacios entre dígitos
     "date_of_birth": [
-        r"(?:date\s*of\s*birth|d\.?o\.?b\.?|birth\s*date)[:\s.]*([\d]{1,2}[\s]*[\/\-\.][\s]*[\d]{1,2}[\s]*[\/\-\.][\s]*[\d]{2,4})",
-        r"(?:born\s*on)[:\s]*([\d]{1,2}[\s]*[\/\-\.][\s]*[\d]{1,2}[\s]*[\/\-\.][\s]*[\d]{2,4})",
-        # Fecha standalone en líneas unknown: DD/MM/YYYY o variantes con espacios
-        r"^([\d]{1,2}[\s]*[\/\-\.][\s]*[\d]{1,2}[\s]*[\/\-\.][\s]*[\d]{2,4})$",
+        r"(?:date\s*of\s*birth|d\.?\s*o\.?\s*b\.?|birth\s*date|born)[:/\s.]+"
+        r"([\d]{1,2}[\s]*[\/\-\.\s][\s]*[\d]{1,2}[\s]*[\/\-\.\s][\s]*[\d]{2,4})",
+    ],
+    "issue_date": [
+        r"(?:date\s*of\s*issue|issue\s*date|issued\s*on|jari)[:/\s.]+"
+        r"([\d]{1,2}[\s]*[\/\-\.\s][\s]*[\d]{1,2}[\s]*[\/\-\.\s][\s]*[\d]{2,4})",
+    ],
+    "expiry_date": [
+        r"(?:date\s*of\s*expir[y|i]|expir[y|i]\s*date|valid\s*(?:until|thru)|expiration)[:/\s.]+"
+        r"([\d]{1,2}[\s]*[\/\-\.\s][\s]*[\d]{1,2}[\s]*[\/\-\.\s][\s]*[\d]{2,4})",
     ],
     "document_number": [
-        # Aadhaar: exactamente 12 dígitos (posiblemente con espacios)
-        r"(?:aadhaar\s*number|aadhaar)[:\s]*([\d]{4}[\s]*[\d]{4}[\s]*[\d]{4})",
-        # Otros documentos: alfanumérico de 6-20 chars, debe tener al menos 1 dígito
-        r"(?:passport\s*no|pan\s*no|dl\s*no|id\s*no|document\s*no|card\s*no|visa\s*no)[:\s#\.]*([A-Z0-9]{6,20})",
-        # Número de visa standalone: empieza con letras seguido de muchos dígitos
+        # Aadhaar: 12 dígitos con posibles espacios
+        r"(?:aadhaar\s*(?:number|no)?)[:/\s]*([\d][\d\s]{10,14}[\d])",
+        # Número de documento con etiqueta explícita
+        r"(?:passport\s*no|pan\s*(?:no|number)|dl\s*no|id\s*no|"
+        r"document\s*no|card\s*no|visa\s*no)[:/\s#\.]*([A-Z][A-Z0-9]{5,19})",
+        # Número de visa standalone tipo VJ1234567
         r"\b([A-Z]{1,3}[\d]{6,12})\b",
     ],
     "gender": [
-        r"(?:gender|sex)[:\s]+(male|female|other|transgender)\b",
-        r"(?:gender|sex)[:\s]+\b(m|f)\b",
-        r"\bsex[:\s]+\b(m|f)\b",
+        r"(?:gender|sex)[:/\s]+(male|female|other|transgender)\b",
+        r"(?:gender|sex)[:/\s]+\b(m|f)\b",
     ],
     "nationality": [
-        r"(?:nationality|citizen(?:ship)?)[:\s]+([A-Za-z]+)",
+        r"(?:nationality|citizen(?:ship)?)[:/\s]+([A-Za-z]+)",
     ],
     "address": [
-        r"(?:address|addr|residence|residing\s*at)[:\s]+(.{10,100})",
-    ],
-    "expiry_date": [
-        r"(?:date\s*of\s*expiry|expiry|expiration|valid\s*until|valid\s*thru)[:\s.]*([\d]{1,2}[\s]*[\/\-\.][\s]*[\d]{1,2}[\s]*[\/\-\.][\s]*[\d]{2,4})",
-    ],
-    "issue_date": [
-        r"(?:date\s*of\s*issue|issue\s*date|issued\s*on)[:\s.]*([\d]{1,2}[\s]*[\/\-\.][\s]*[\d]{1,2}[\s]*[\/\-\.][\s]*[\d]{2,4})",
+        r"(?:address|addr|residence|residing\s*at)[:/\s]+(.{10,100})",
     ],
 }
 
@@ -231,7 +239,7 @@ def separar_por_idioma(lineas):
 
 
 # ─────────────────────────────────────────────
-# KIE
+# ETAPA 3: KIE
 # ─────────────────────────────────────────────
 
 def es_ruido(texto: str) -> bool:
@@ -271,21 +279,20 @@ def es_nombre_valido(valor: str) -> bool:
 
 def aplicar_kie(lineas_english: list, lineas_unknown: list) -> dict:
     """
-    Aplica KIE sobre líneas en inglés + líneas unknown (para fechas).
-    Filtra ruido antes de buscar patrones.
+    Aplica KIE con tres estrategias:
+      1. Línea por línea: campo y valor en la misma línea
+      2. Pares de líneas consecutivas: etiqueta arriba, valor abajo
+      3. Líneas unknown para fechas standalone
+    El campo 'name' SOLO se busca en estrategia 1 (línea por línea)
+    para evitar capturas greedy en texto concatenado.
     """
     entidades = {}
 
-    # Líneas english limpias (sin ruido)
-    textos_en = [l["texto"] for l in lineas_english if not es_ruido(l["texto"])]
+    lineas_limpias = [l for l in lineas_english if not es_ruido(l["texto"])]
+    textos = [l["texto"] for l in lineas_limpias]
 
-    # Líneas unknown: solo para campos de fecha
-    textos_unk = [l["texto"] for l in lineas_unknown]
-
-    texto_completo = " ".join(textos_en)
-
-    # Pasada 1: línea por línea sobre texto en inglés
-    for texto in textos_en:
+    # ── Estrategia 1: campo y valor en la misma línea ──
+    for texto in textos:
         for campo, patrones in KIE_PATTERNS.items():
             if campo in entidades:
                 continue
@@ -293,36 +300,43 @@ def aplicar_kie(lineas_english: list, lineas_unknown: list) -> dict:
                 match = re.search(patron, texto, re.IGNORECASE)
                 if match:
                     valor = match.group(1).strip()
-                    # Validación extra para nombre
                     if campo == "name" and not es_nombre_valido(valor):
                         continue
                     entidades[campo] = valor
                     break
 
-    # Pasada 2: texto completo en inglés
-    for campo, patrones in KIE_PATTERNS.items():
-        if campo in entidades:
-            continue
-        for patron in patrones:
-            match = re.search(patron, texto_completo, re.IGNORECASE)
-            if match:
-                valor = match.group(1).strip()
-                if campo == "name" and not es_nombre_valido(valor):
-                    continue
-                entidades[campo] = valor
-                break
-
-    # Pasada 3: líneas unknown solo para campos de fecha
-    campos_fecha = {"date_of_birth", "issue_date", "expiry_date"}
-    for texto in textos_unk:
-        for campo in campos_fecha:
-            if campo in entidades:
+    # ── Estrategia 2: etiqueta en línea N, valor en línea N+1 ──
+    # Se aplica a todos los campos EXCEPTO name (demasiado ambiguo sin etiqueta)
+    # Construye pares: "FULL NAME\nSIDDHANT GUPTA", "DATE OF BIRTH\n20/09/1994"
+    for i in range(len(textos) - 1):
+        par = textos[i] + " " + textos[i + 1]
+        for campo, patrones in KIE_PATTERNS.items():
+            if campo in entidades or campo == "name":
                 continue
-            for patron in KIE_PATTERNS[campo]:
-                match = re.search(patron, texto, re.IGNORECASE)
+            for patron in patrones:
+                match = re.search(patron, par, re.IGNORECASE)
                 if match:
                     entidades[campo] = match.group(1).strip()
                     break
+
+    # ── Estrategia 3: líneas unknown para fechas standalone ──
+    # Cuando la fecha está sola en su línea sin etiqueta visible
+    campos_fecha = {"date_of_birth", "issue_date", "expiry_date"}
+    textos_unk = [l["texto"] for l in lineas_unknown]
+    fechas_encontradas = []
+
+    for texto in textos_unk:
+        patron_fecha = r"^([\d]{1,2}[\s]*[\/\-\.\s][\s]*[\d]{1,2}[\s]*[\/\-\.\s][\s]*[\d]{2,4})$"
+        match = re.search(patron_fecha, texto.strip(), re.IGNORECASE)
+        if match:
+            fechas_encontradas.append(match.group(1).strip())
+
+    # Asignar fechas standalone a los campos que aún no tienen valor
+    # Orden heurístico: si hay 2 fechas → primera=issue, segunda=expiry
+    campos_fecha_vacios = [c for c in ["issue_date", "expiry_date", "date_of_birth"]
+                           if c not in entidades]
+    for campo, fecha in zip(campos_fecha_vacios, fechas_encontradas):
+        entidades[campo] = fecha
 
     return entidades
 
@@ -391,7 +405,7 @@ def procesar_imagen(ruta_imagen: str, ocr_engine: PaddleOCR,
 
     if guardar_viz:
         print("→ Guardando visualización...")
-        ruta_salida = str(Path("public") / "paddle" /f"{ruta.stem}_rgx.jpg")
+        ruta_salida = str(Path("public")/"paddle"/f"{ruta.stem}_rgx4.jpg")
         visualizar(imagen_rgb, grupos, ruta_salida)
 
     return {
@@ -411,7 +425,7 @@ if __name__ == "__main__":
     print("Inicializando PaddleOCR v3.x...")
     ocr = PaddleOCR(
         lang="hi",                           # Hindi: reconoce Devanagari real + latino
-        use_doc_orientation_classify=False,  # evita crash en macOS Apple Silicon
+        use_doc_orientation_classify=False,  # evita crash en mi maquina
         use_doc_unwarping=False,             # desactiva UVDoc (el modelo más pesado)
         use_textline_orientation=False,      # innecesario para documentos ya limpios
     )
