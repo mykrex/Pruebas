@@ -1,5 +1,5 @@
 """
-Pipeline OCR para documentos oficiales de India — PaddleOCR v3.x
+Pipeline OCR para documentos oficiales — PaddleOCR v3.x
 =================================================================
 Flujo:
   1. Extracción de todo el texto con PaddleOCR (lang="hi")
@@ -23,7 +23,7 @@ from paddleocr import PaddleOCR
 
 
 # ─────────────────────────────────────────────
-# CONFIGURACIÓN
+# SETUP
 # ─────────────────────────────────────────────
 
 CONFIDENCE_THRESHOLD = 0.7
@@ -52,7 +52,8 @@ INDIAN_SCRIPT_RANGES = [
     (0x0D00, 0x0D7F),  # Malayalam
 ]
 
-# Patrones KIE para documentos oficiales de India
+# Patrones KIE para documentos oficiales
+# Usando REGEX
 KIE_PATTERNS = {
     # Nombre: requiere etiqueta explícita (name:, full name:, etc.)
     # El valor debe tener al menos 2 palabras con 2+ letras cada una
@@ -230,7 +231,7 @@ def separar_por_idioma(lineas):
 
 
 # ─────────────────────────────────────────────
-# ETAPA 3: KIE
+# KIE
 # ─────────────────────────────────────────────
 
 def es_ruido(texto: str) -> bool:
@@ -390,7 +391,7 @@ def procesar_imagen(ruta_imagen: str, ocr_engine: PaddleOCR,
 
     if guardar_viz:
         print("→ Guardando visualización...")
-        ruta_salida = str(ruta.parent / f"{ruta.stem}_resultado.jpg")
+        ruta_salida = str(Path("public") / "paddle" /f"{ruta.stem}_rgx.jpg")
         visualizar(imagen_rgb, grupos, ruta_salida)
 
     return {
@@ -415,7 +416,7 @@ if __name__ == "__main__":
         use_textline_orientation=False,      # innecesario para documentos ya limpios
     )
 
-    resultado = procesar_imagen("public/visa_p1.png", ocr)
+    resultado = procesar_imagen("public/originals/visa_p1.png", ocr)
 
     print("\n── RESULTADO FINAL ──")
     print(json.dumps(resultado["entidades"], indent=2, ensure_ascii=False))

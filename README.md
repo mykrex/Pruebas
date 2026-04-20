@@ -45,6 +45,10 @@ pip install "paddlepaddle>=3.0"
 
 pip install paddleocr
 
+# OTROS
+
+pip install opencv-python
+
 ## Pendiente:
 
 ´´´
@@ -63,3 +67,8 @@ Separar entre los caracteres latinos y no latinos, probar con los preprocesados 
   - CON :
     - EASY
     - PADDLE
+
+- PADDLE + REGEX
+- PADDLE + SPACY
+- EASY + REGEX
+- EASY + SPACY
