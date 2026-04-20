@@ -45,19 +45,13 @@ pip install "paddlepaddle>=3.0"
 
 pip install paddleocr
 
-# OTROS
+# Otros
 
 pip install opencv-python
 
-## Pendiente:
+# Redimensionar las imagenes
 
-´´´
-
-Separar entre los caracteres latinos y no latinos, probar con los preprocesados ya
-
-´´´
-
-# REDIMENSIONAR
+Se redimencionan las imagenes a un tamaño con el que el CPU pueda trabajar
 
 - ¿Si uso el de easy ocuparia redimensionar de igual forma?
 - Con la tarjeta y la visa:
