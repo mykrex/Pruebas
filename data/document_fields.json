@@ -1,0 +1,474 @@
+{
+  "version": "1.0",
+  "description": "Field label mappings for common ID documents. Each field lists the label variations that may appear on the document (case-insensitive). 'type' indicates the expected value kind.",
+
+  "document_types": {
+
+    "passport": {
+      "identifiers": [
+        "PASSPORT", "PASSEPORT", "PASAPORTE", "REISEPASS", "PASPOORT",
+        "PASSAPORTO", "PASSAPORTE", "PASSZAHL", "护照", "पासपोर्ट"
+      ],
+      "fields": {
+        "full_name": {
+          "labels": [
+            "FULL NAME", "NAME", "NOMBRE COMPLETO", "NOM COMPLET",
+            "SURNAME", "LAST NAME", "FAMILY NAME", "NOM", "APELLIDO", "NACHNAME", "COGNOME", "SOBRENOME",
+            "GIVEN NAMES", "GIVEN NAME", "FIRST NAME", "FORENAMES", "PRÉNOMS", "NOMBRE", "VORNAME", "NOME"
+          ],
+          "type": "name",
+          "required": true
+        },
+        "passport_number": {
+          "labels": ["PASSPORT NO", "PASSPORT NUMBER", "PASSPORT NO.", "PASSNR", "NO. DE PASSEPORT", "NO. PASAPORTE", "DOCUMENT NO", "DOCUMENT NUMBER"],
+          "type": "passport_number",
+          "required": true
+        },
+        "nationality": {
+          "labels": ["NATIONALITY", "NATIONALITÉ", "NACIONALIDAD", "STAATSANGEHÖRIGKEIT", "NAZIONALITÀ", "NATIONALITEIT"],
+          "type": "text",
+          "required": true
+        },
+        "date_of_birth": {
+          "labels": ["DATE OF BIRTH", "DATE OF BIRTH / DATE DE NAISSANCE", "D.O.B", "DOB", "BIRTH DATE", "FECHA DE NACIMIENTO", "GEBURTSDATUM", "DATA DI NASCITA", "GEBOORTEDATUM", "जन्म तिथि"],
+          "type": "date",
+          "required": true
+        },
+        "place_of_birth": {
+          "labels": ["PLACE OF BIRTH", "BIRTH PLACE", "LIEU DE NAISSANCE", "LUGAR DE NACIMIENTO", "GEBURTSORT"],
+          "type": "text",
+          "required": false
+        },
+        "gender": {
+          "labels": ["SEX", "GENDER", "SEXE", "SEXO", "GESCHLECHT", "SESSO"],
+          "type": "gender",
+          "required": true
+        },
+        "issue_date": {
+          "labels": ["DATE OF ISSUE", "ISSUE DATE", "ISSUED ON", "DATE OF ISSUANCE", "DATE D'ÉMISSION", "FECHA DE EXPEDICIÓN", "AUSSTELLUNGSDATUM", "DATA DI RILASCIO", "जारी तिथि"],
+          "type": "date",
+          "required": true
+        },
+        "expiry_date": {
+          "labels": ["DATE OF EXPIRY", "EXPIRY DATE", "EXPIRATION DATE", "VALID UNTIL", "VALID THRU", "DATE D'EXPIRATION", "FECHA DE VENCIMIENTO", "ABLAUFDATUM", "DATA DI SCADENZA", "समाप्ति तिथि"],
+          "type": "date",
+          "required": true
+        },
+        "issuing_authority": {
+          "labels": ["ISSUING AUTHORITY", "AUTHORITY", "ISSUED BY", "AUTORITÉ DE DÉLIVRANCE", "AUTORIDAD EMISORA", "AUSSTELLUNGSBEHÖRDE"],
+          "type": "text",
+          "required": false
+        },
+        "issuing_country": {
+          "labels": ["ISSUING COUNTRY", "COUNTRY OF ISSUE", "PAYS DE DÉLIVRANCE", "PAÍS DE EXPEDICIÓN"],
+          "type": "text",
+          "required": false
+        },
+        "mrz_line1": {
+          "labels": ["MRZ", "MACHINE READABLE ZONE"],
+          "type": "mrz",
+          "required": false
+        }
+      }
+    },
+
+    "visa": {
+      "identifiers": [
+        "VISA", "VSA", "ENTRY PERMIT", "PERMIS D'ENTRÉE", "PERMISO DE ENTRADA",
+        "AUFENTHALTSERLAUBNIS", "VISUM", "VISTO", "वीज़ा"
+      ],
+      "fields": {
+        "full_name": {
+          "labels": [
+            "FULL NAME", "NAME",
+            "SURNAME", "SUMANE", "LAST NAME", "FAMILY NAME", "NOM",
+            "GIVEN NAMES", "GIVEN NAME", "FIRST NAME", "FORENAMES"
+          ],
+          "type": "name",
+          "required": true
+        },
+        "visa_number": {
+          "labels": ["VISA NO", "VISA NUMBER", "VISA NO.", "STICKER NUMBER", "FOLIO NUMBER"],
+          "type": "visa_number",
+          "required": true
+        },
+        "visa_type": {
+          "labels": ["VISA TYPE", "TYPE OF VISA", "CATEGORY", "TYPE"],
+          "type": "text",
+          "required": true
+        },
+        "nationality": {
+          "labels": ["NATIONALITY", "NATIONALITÉ", "NACIONALIDAD"],
+          "type": "text",
+          "required": true
+        },
+        "passport_number": {
+          "labels": ["PASSPORT NO", "PASSPORT NUMBER", "PASSPORT NO.", "DOCUMENT NO"],
+          "type": "passport_number",
+          "required": true
+        },
+        "date_of_birth": {
+          "labels": ["DATE OF BIRTH", "DOB", "D.O.B", "BIRTH DATE"],
+          "type": "date",
+          "required": true
+        },
+        "gender": {
+          "labels": ["SEX", "GENDER"],
+          "type": "gender",
+          "required": false
+        },
+        "issue_date": {
+          "labels": ["DATE OF ISSUE", "ISSUE DATE", "ISSUED ON", "VALID FROM", "VALID FROM DATE"],
+          "type": "date",
+          "required": true
+        },
+        "expiry_date": {
+          "labels": ["DATE OF EXPIRY", "EXPIRY DATE", "VALID UNTIL", "VALID TO", "VALID UPTO", "EXPIRATION DATE"],
+          "type": "date",
+          "required": true
+        },
+        "number_of_entries": {
+          "labels": ["NO OF ENTRIES", "NUMBER OF ENTRIES", "ENTRIES", "NO. OF ENTRIES"],
+          "type": "text",
+          "required": false
+        },
+        "duration_of_stay": {
+          "labels": ["DURATION OF STAY", "STAY", "MAX STAY", "DURATION"],
+          "type": "text",
+          "required": false
+        },
+        "issuing_country": {
+          "labels": ["ISSUED BY", "ISSUING COUNTRY", "ISSUING AUTHORITY", "ISSUED AT"],
+          "type": "text",
+          "required": false
+        },
+        "purpose": {
+          "labels": ["PURPOSE", "PURPOSE OF VISIT", "REMARKS", "ENDORSEMENTS"],
+          "type": "text",
+          "required": false
+        }
+      }
+    },
+
+    "pan_card": {
+      "identifiers": [
+        "PERMANENT ACCOUNT NUMBER", "PAN", "INCOME TAX DEPARTMENT",
+        "GOVT OF INDIA", "GOVERNMENT OF INDIA"
+      ],
+      "fields": {
+        "pan_number": {
+          "labels": ["PERMANENT ACCOUNT NUMBER", "PAN NO", "PAN NUMBER", "PAN"],
+          "type": "document_number",
+          "required": true
+        },
+        "full_name": {
+          "labels": ["NAME", "FULL NAME"],
+          "type": "name",
+          "required": true
+        },
+        "father_name": {
+          "labels": ["FATHER'S NAME", "FATHER NAME", "S/O", "SON OF", "D/O", "DAUGHTER OF"],
+          "type": "name",
+          "required": true
+        },
+        "date_of_birth": {
+          "labels": ["DATE OF BIRTH", "DOB", "D.O.B", "जन्म तिथि"],
+          "type": "date",
+          "required": true
+        },
+        "gender": {
+          "labels": ["GENDER", "SEX"],
+          "type": "gender",
+          "required": false
+        }
+      }
+    },
+
+    "aadhaar": {
+      "identifiers": [
+        "AADHAAR", "AADHAR", "UNIQUE IDENTIFICATION", "UIDAI",
+        "MY AADHAAR", "आधार"
+      ],
+      "fields": {
+        "aadhaar_number": {
+          "labels": ["AADHAAR NO", "AADHAAR NUMBER", "UID", "आधार संख्या"],
+          "type": "document_number",
+          "required": true
+        },
+        "full_name": {
+          "labels": ["NAME", "FULL NAME", "नाम"],
+          "type": "name",
+          "required": true
+        },
+        "date_of_birth": {
+          "labels": ["DATE OF BIRTH", "DOB", "D.O.B", "YEAR OF BIRTH", "जन्म तिथि"],
+          "type": "date",
+          "required": true
+        },
+        "gender": {
+          "labels": ["GENDER", "SEX", "लिंग"],
+          "type": "gender",
+          "required": true
+        },
+        "address": {
+          "labels": ["ADDRESS", "ADDR", "पता"],
+          "type": "address",
+          "required": true
+        },
+        "pincode": {
+          "labels": ["PINCODE", "PIN CODE", "PIN"],
+          "type": "number",
+          "required": false
+        }
+      }
+    },
+
+    "national_id": {
+      "identifiers": [
+        "NATIONAL IDENTITY CARD", "NATIONAL ID", "IDENTITY CARD",
+        "CARTE NATIONALE D'IDENTITÉ", "DNI", "DOCUMENTO NACIONAL DE IDENTIDAD",
+        "PERSONALAUSWEIS", "CARTA D'IDENTITÀ", "TARJETA DE IDENTIDAD",
+        "CEDULA", "CÉDULA", "KTP", "IC", "NRIC", "CARTE D'IDENTITÉ",
+        "NATIONAL IDENTIFICATION", "ID CARD", "CITIZEN CARD"
+      ],
+      "fields": {
+        "id_number": {
+          "labels": [
+            "ID NUMBER", "ID NO", "IDENTITY NUMBER", "CARD NUMBER", "CARD NO",
+            "DNI", "NIE", "NIF", "NUMÉRO", "NUMERO", "NO.", "NUMBER",
+            "NATIONAL ID NO", "NIC NO", "IC NUMBER", "NRIC"
+          ],
+          "type": "document_number",
+          "required": true
+        },
+        "full_name": {
+          "labels": [
+            "FULL NAME", "NAME", "NOMBRE COMPLETO", "NOM COMPLET", "JINA",
+            "SURNAME", "LAST NAME", "FAMILY NAME", "APELLIDO", "NOM", "NACHNAME",
+            "GIVEN NAMES", "FIRST NAME", "NOMBRE", "PRÉNOMS", "VORNAME"
+          ],
+          "type": "name",
+          "required": true
+        },
+        "date_of_birth": {
+          "labels": ["DATE OF BIRTH", "DOB", "D.O.B", "BIRTH DATE", "FECHA DE NACIMIENTO", "DATE DE NAISSANCE", "GEBURTSDATUM", "TANGGAL LAHIR", "TAREHE YA KUZALIWA"],
+          "type": "date",
+          "required": true
+        },
+        "place_of_birth": {
+          "labels": ["PLACE OF BIRTH", "BIRTH PLACE", "LUGAR DE NACIMIENTO", "LIEU DE NAISSANCE", "TEMPAT LAHIR"],
+          "type": "text",
+          "required": false
+        },
+        "gender": {
+          "labels": ["SEX", "GENDER", "SEXO", "SEXE", "GESCHLECHT", "JENIS KELAMIN"],
+          "type": "gender",
+          "required": true
+        },
+        "nationality": {
+          "labels": ["NATIONALITY", "NATIONALITÉ", "NACIONALIDAD", "STAATSANGEHÖRIGKEIT", "KEWARGANEGARAAN"],
+          "type": "text",
+          "required": false
+        },
+        "address": {
+          "labels": ["ADDRESS", "DOMICILE", "RESIDENCE", "DOMICILIO", "ADRESSE", "WOHNORT", "ALAMAT"],
+          "type": "address",
+          "required": false
+        },
+        "issue_date": {
+          "labels": ["DATE OF ISSUE", "ISSUE DATE", "ISSUED ON", "FECHA DE EXPEDICIÓN", "DATE D'ÉMISSION", "AUSSTELLUNGSDATUM"],
+          "type": "date",
+          "required": false
+        },
+        "expiry_date": {
+          "labels": ["DATE OF EXPIRY", "EXPIRY DATE", "VALID UNTIL", "FECHA DE VENCIMIENTO", "DATE D'EXPIRATION", "ABLAUFDATUM", "BERLAKU SAMPAI"],
+          "type": "date",
+          "required": false
+        }
+      }
+    },
+
+    "drivers_license": {
+      "identifiers": [
+        "DRIVING LICENCE", "DRIVER'S LICENSE", "DRIVER LICENSE", "DRIVERS LICENSE",
+        "PERMIS DE CONDUIRE", "LICENCIA DE CONDUCIR", "FÜHRERSCHEIN",
+        "PATENTE DE CONDUCIR", "SIM", "DL", "DRIVING LICENSE"
+      ],
+      "fields": {
+        "license_number": {
+          "labels": ["DL NO", "DL NUMBER", "LICENCE NO", "LICENSE NO", "LICENSE NUMBER", "LICENCE NUMBER", "DOCUMENT NO"],
+          "type": "document_number",
+          "required": true
+        },
+        "full_name": {
+          "labels": ["NAME", "FULL NAME", "HOLDER", "TITULAIRE"],
+          "type": "name",
+          "required": true
+        },
+        "date_of_birth": {
+          "labels": ["DATE OF BIRTH", "DOB", "D.O.B", "BIRTH DATE", "3. DOB", "3."],
+          "type": "date",
+          "required": true
+        },
+        "address": {
+          "labels": ["ADDRESS", "RESIDENCE", "DOMICILE", "8."],
+          "type": "address",
+          "required": false
+        },
+        "issue_date": {
+          "labels": ["DATE OF ISSUE", "ISSUE DATE", "ISSUED", "4a.", "VALID FROM"],
+          "type": "date",
+          "required": true
+        },
+        "expiry_date": {
+          "labels": ["DATE OF EXPIRY", "EXPIRY DATE", "VALID UNTIL", "VALID THRU", "EXPIRATION", "4b."],
+          "type": "date",
+          "required": true
+        },
+        "issuing_authority": {
+          "labels": ["ISSUING AUTHORITY", "ISSUED BY", "AUTHORITY", "4c.", "LICENSING AUTHORITY"],
+          "type": "text",
+          "required": false
+        },
+        "vehicle_class": {
+          "labels": ["CLASS", "VEHICLE CLASS", "CATEGORIES", "COV", "TRANSPORT"],
+          "type": "text",
+          "required": false
+        },
+        "blood_group": {
+          "labels": ["BLOOD GROUP", "BLOOD TYPE", "BLOOD GRP", "BG"],
+          "type": "text",
+          "required": false
+        }
+      }
+    },
+
+    "voter_id": {
+      "identifiers": [
+        "ELECTION COMMISSION", "VOTER ID", "ELECTORS PHOTO IDENTITY CARD",
+        "EPIC", "VOTER IDENTITY CARD", "ELECTORAL ROLL"
+      ],
+      "fields": {
+        "epic_number": {
+          "labels": ["EPIC NO", "VOTER ID NO", "IDENTITY CARD NO", "CARD NO"],
+          "type": "document_number",
+          "required": true
+        },
+        "full_name": {
+          "labels": ["NAME", "ELECTOR'S NAME", "FULL NAME"],
+          "type": "name",
+          "required": true
+        },
+        "father_name": {
+          "labels": ["FATHER'S NAME", "FATHER NAME", "HUSBAND'S NAME", "S/O", "D/O", "W/O"],
+          "type": "name",
+          "required": true
+        },
+        "date_of_birth": {
+          "labels": ["DATE OF BIRTH", "DOB", "D.O.B"],
+          "type": "date",
+          "required": false
+        },
+        "gender": {
+          "labels": ["GENDER", "SEX"],
+          "type": "gender",
+          "required": true
+        },
+        "address": {
+          "labels": ["ADDRESS", "RESIDENCE"],
+          "type": "address",
+          "required": true
+        },
+        "assembly_constituency": {
+          "labels": ["ASSEMBLY CONSTITUENCY", "A.C. NO", "CONSTITUENCY"],
+          "type": "text",
+          "required": false
+        }
+      }
+    },
+
+    "residence_permit": {
+      "identifiers": [
+        "RESIDENCE PERMIT", "RESIDENT CARD", "PERMANENT RESIDENT",
+        "PERMIS DE RÉSIDENCE", "PERMISO DE RESIDENCIA", "AUFENTHALTSTITEL",
+        "PERMESSO DI SOGGIORNO", "GREEN CARD", "ALIEN REGISTRATION"
+      ],
+      "fields": {
+        "permit_number": {
+          "labels": ["PERMIT NO", "CARD NUMBER", "DOCUMENT NO", "ALIEN NO", "A-NUMBER"],
+          "type": "document_number",
+          "required": true
+        },
+        "full_name": {
+          "labels": ["NAME", "FULL NAME", "SURNAME", "GIVEN NAMES"],
+          "type": "name",
+          "required": true
+        },
+        "nationality": {
+          "labels": ["NATIONALITY", "COUNTRY OF BIRTH", "COUNTRY OF ORIGIN"],
+          "type": "text",
+          "required": true
+        },
+        "date_of_birth": {
+          "labels": ["DATE OF BIRTH", "DOB", "D.O.B"],
+          "type": "date",
+          "required": true
+        },
+        "gender": {
+          "labels": ["SEX", "GENDER"],
+          "type": "gender",
+          "required": false
+        },
+        "issue_date": {
+          "labels": ["DATE OF ISSUE", "ISSUE DATE", "RESIDENT SINCE", "VALID FROM"],
+          "type": "date",
+          "required": true
+        },
+        "expiry_date": {
+          "labels": ["DATE OF EXPIRY", "EXPIRY DATE", "VALID UNTIL", "CARD EXPIRES"],
+          "type": "date",
+          "required": true
+        },
+        "issuing_country": {
+          "labels": ["ISSUING COUNTRY", "ISSUED BY", "COUNTRY"],
+          "type": "text",
+          "required": false
+        }
+      }
+    },
+
+    "social_security": {
+      "identifiers": [
+        "SOCIAL SECURITY", "SSN", "SOCIAL SECURITY NUMBER",
+        "SOCIAL INSURANCE", "NÚMERO DE SEGURIDAD SOCIAL",
+        "NUMÉRO DE SÉCURITÉ SOCIALE", "SOZIALVERSICHERUNG"
+      ],
+      "fields": {
+        "ssn": {
+          "labels": ["SOCIAL SECURITY NUMBER", "SSN", "SOCIAL INSURANCE NUMBER", "SIN", "NÚMERO"],
+          "type": "document_number",
+          "required": true
+        },
+        "full_name": {
+          "labels": ["NAME", "FULL NAME"],
+          "type": "name",
+          "required": true
+        }
+      }
+    }
+
+  },
+
+  "field_types": {
+    "name":            { "description": "Person name — letters, spaces, hyphens, dots" },
+    "date":            { "description": "Date in various formats: DD/MM/YYYY, MM-DD-YYYY, DD MMM YYYY, etc." },
+    "document_number": { "description": "Generic alphanumeric ID — PAN, Aadhaar, Voter ID, DL, etc." },
+    "passport_number": { "description": "Passport book number — 1-2 letters + 7-8 digits, or 9-char ICAO alphanumeric" },
+    "visa_number":     { "description": "Visa sticker number (2-3L+7D) or e-Visa numeric string (12-13 digits)" },
+    "text":            { "description": "Free-form short text value" },
+    "address":         { "description": "Multi-part address string" },
+    "gender":          { "description": "M / F / Male / Female / Other / X" },
+    "number":          { "description": "Pure numeric value (e.g. pincode)" },
+    "mrz":             { "description": "ICAO Machine Readable Zone line" }
+  }
+}

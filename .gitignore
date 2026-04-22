@@ -1,4 +1,6 @@
 venv/
+.venv/
+.claude/
 
 public/
 **/public/
@@ -10,3 +12,8 @@ paddle/
 easy/
 
 readme2.md
+
+__pycache__/
+
+output/*
+!output/.gitkeep
