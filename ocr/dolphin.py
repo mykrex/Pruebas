@@ -22,9 +22,16 @@ import json
 import torch
 import numpy as np
 import cv2
+
+import sys
+sys.path.insert(0, "./Dolphin")
+from demo_page import DOLPHIN, process_single_image
+
 from pathlib import Path
 from PIL import Image as PILImage
-from transformers import AutoProcessor, AutoModelForImageTextToText
+
+from transformers import pipeline, AutoProcessor, AutoModelForImageTextToText
+from qwen_vl_utils import process_vision_info
 
 
 # ─────────────────────────────────────────────
@@ -53,32 +60,13 @@ INDIAN_SCRIPT_RANGES = [
 # ─────────────────────────────────────────────
 
 def cargar_modelo(model_path: str = MODEL_PATH):
-    """
-    Carga Dolphin-v2 en el dispositivo disponible.
-    Prioridad: CUDA > MPS (Apple Silicon) > CPU
-    """
-    if torch.cuda.is_available():
-        device = "cuda"
-    elif torch.backends.mps.is_available():
-        device = "mps"
-    else:
-        device = "cpu"
-
-    print(f"  Usando dispositivo: {device}")
-
-    processor = AutoProcessor.from_pretrained(model_path, trust_remote_code=True)
-    model = AutoModelForImageTextToText.from_pretrained(
-        model_path,
-        torch_dtype=torch.float16 if device != "cpu" else torch.float32,
-        trust_remote_code=True,
-    ).to(device)
-    model.eval()
-
-    return model, processor, device
+    print(f"  Cargando DOLPHIN desde: {model_path}")
+    model = DOLPHIN(model_path)
+    return model, None, None
 
 
 # ─────────────────────────────────────────────
-# ETAPA 1: CARGA Y PREPARACIÓN DE IMAGEN
+# CARGA Y PREPARACIÓN DE IMAGEN
 # ─────────────────────────────────────────────
 
 def cargar_imagen(ruta: str) -> PILImage.Image:
@@ -101,46 +89,45 @@ def cargar_imagen(ruta: str) -> PILImage.Image:
 
 
 # ─────────────────────────────────────────────
-# ETAPA 2: PARSEO CON DOLPHIN
+# PARSEO CON DOLPHIN
 # ─────────────────────────────────────────────
 
-def parsear_con_dolphin(imagen: PILImage.Image,
-                        model, processor, device: str) -> list[dict]:
-    """
-    Corre Dolphin en modo page-level parsing.
+def parsear_con_dolphin(imagen: PILImage.Image, model, processor, device) -> list[dict]:
+    import tempfile, os, json
+    
+    # Dolphin necesita un directorio donde guardar resultados
+    save_dir = tempfile.mkdtemp()
 
-    Dolphin devuelve una lista de elementos en orden de lectura, cada uno con:
-      - type  : categoría del elemento (text, title, table, figure, etc.)
-      - bbox  : coordenadas [x1, y1, x2, y2] en píxeles
-      - content: texto extraído del elemento
+    # Guardar imagen temporal porque Dolphin espera una ruta
+    #with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+    #    imagen.save(tmp.name)
+    #    tmp_path = tmp.name
 
-    Para fotografías de documentos usa parsing holístico (Stage 2 unificado).
-    Para documentos digitales usa parsing por elemento en paralelo.
-    """
-    # Preparar el input según el formato que espera Dolphin
-    # El prompt estándar para page-level parsing
-    prompt = "<PAGE_PARSE>"
+    #save_dir = tempfile.mkdtemp()
 
-    inputs = processor(
-        text=prompt,
-        images=imagen,
-        return_tensors="pt",
-    ).to(device)
-
-    with torch.no_grad():
-        outputs = model.generate(
-            **inputs,
-            max_new_tokens=4096,
-            do_sample=False,
-        )
-
-    # Decodificar la salida
-    raw_output = processor.decode(outputs[0], skip_special_tokens=True)
-
-    # Dolphin devuelve JSON estructurado — parsearlo
-    elementos = _parsear_output_dolphin(raw_output)
-    return elementos
-
+    # Crear subdirectorios que Dolphin espera
+    os.makedirs(os.path.join(save_dir, "output_json"), exist_ok=True)
+    os.makedirs(os.path.join(save_dir, "markdown", "figures"), exist_ok=True)
+    
+    # Usar el pipeline oficial de Dolphin
+    process_single_image(
+        image=imagen,
+        model=model,
+        save_dir=save_dir,
+        image_name="doc",
+    )
+    
+    # os.unlink(tmp_path)
+    
+    # Leer el JSON que guardó Dolphin
+    resultado_json = os.path.join(save_dir, "output_json", "doc.json")
+    if os.path.exists(resultado_json):
+        with open(resultado_json) as f:
+            data = json.load(f)   
+        return _parsear_output_dolphin(json.dumps(data))
+    
+    print(f"  Archivos generados: {os.listdir(save_dir)}")
+    return []
 
 def _parsear_output_dolphin(raw_output: str) -> list[dict]:
     """
@@ -150,6 +137,10 @@ def _parsear_output_dolphin(raw_output: str) -> list[dict]:
     El formato exacto puede variar entre versiones — si el JSON falla,
     caemos back a extracción de texto plano línea por línea.
     """
+    print("\n── RAW OUTPUT DE DOLPHIN ──")
+    print(repr(raw_output[:500]))  # primeros 500 chars
+    print("──────────────────────────")
+
     elementos = []
 
     # Intentar parsear como JSON primero
@@ -397,7 +388,7 @@ def procesar_imagen(ruta_imagen: str, model, processor, device: str,
     print(f"  Tamaño final: {imagen.size}")
 
     print("→ Etapa 2: Parseando con Dolphin...")
-    elementos = parsear_con_dolphin(imagen, model, processor, device)
+    elementos = parsear_con_dolphin(imagen, model, None, None)
     print(f"  {len(elementos)} elementos detectados")
 
     print("→ Etapa 3: Separando por idioma...")
@@ -412,7 +403,7 @@ def procesar_imagen(ruta_imagen: str, model, processor, device: str,
 
     if guardar_viz:
         print("→ Guardando visualización...")
-        ruta_salida = str(ruta.parent / f"{ruta.stem}_dolphin.jpg")
+        ruta_salida = str(Path("public")/"dolphin"/ f"{ruta.stem}_dp.jpg")
         visualizar(imagen, grupos, ruta_salida)
 
     return {
@@ -431,7 +422,7 @@ if __name__ == "__main__":
     print("Cargando Dolphin-v2...")
     model, processor, device = cargar_modelo(MODEL_PATH)
 
-    resultado = procesar_imagen("public/originals/Indian_IDs_p1.png", model, processor, device)
+    resultado = procesar_imagen("public/originals/Indian_IDs_p2.png", model, processor, device)
 
     print("\n── PARES CAMPO→VALOR ENCONTRADOS ──")
     print(json.dumps(resultado["pares"], indent=2, ensure_ascii=False))

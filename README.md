@@ -71,15 +71,18 @@ No necesita OCR separado — lee la imagen directamente y extrae campos estructu
 
 ---
 
-## Redimensionar las imagenes
+## METRICAS
 
-Se redimencionan las imagenes a un tamaño con el que el CPU pueda trabajar
+- Tiempo de procesamiento
+- Tiempo de respuesta
+- Certeza / Confiabilidad en el resultado
 
-- ¿Solo paddle ocupa redimensionar? ¿Los demas lo necesitan?
+---
 
-- SACAR IDENTIDADES CON:
-  - REGEX
-  - SPACY
-- CON :
-  - EASY
-  - PADDLE
+## NOTAS
+
+- ¿Todos los modelos de OCR usaran CPU?
+- Redimencionar las imagenes para que la maquina pueda trabajar con ella con tal OCR
+- KIE : modelo o librerias como spaCy segun sea el caso
+- ¿Un dataset sería útil aquí?
+  - No para esta parte. Un dataset sería útil si quisieras fine-tunear Dolphin para que reconozca mejor scripts indios o campos específicos de los documentos. Para inferencia básica no se necesita eso. Dolphin ya viene preentrenado [yasehace].
