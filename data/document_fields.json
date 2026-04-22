@@ -54,6 +54,26 @@
           "type": "date",
           "required": true
         },
+        "father_name": {
+          "labels": ["FATHER'S NAME", "FATHER NAME", "S/O", "SON OF", "D/O", "DAUGHTER OF"],
+          "type": "name",
+          "required": false
+        },
+        "mother_name": {
+          "labels": ["MOTHER'S NAME", "MOTHER NAME", "M/O"],
+          "type": "name",
+          "required": false
+        },
+        "blood_group": {
+          "labels": ["BLOOD GROUP", "BLOOD TYPE", "BLOOD GRP", "BG"],
+          "type": "blood_group",
+          "required": false
+        },
+        "dna_marker": {
+          "labels": ["DNA", "DNA PROFILE", "DNA MARKER", "GENETIC MARKER"],
+          "type": "dna_marker",
+          "required": false
+        },
         "issuing_authority": {
           "labels": ["ISSUING AUTHORITY", "AUTHORITY", "ISSUED BY", "AUTORITÉ DE DÉLIVRANCE", "AUTORIDAD EMISORA", "AUSSTELLUNGSBEHÖRDE"],
           "type": "text",
@@ -171,6 +191,11 @@
           "type": "name",
           "required": true
         },
+        "mother_name": {
+          "labels": ["MOTHER'S NAME", "MOTHER NAME", "M/O"],
+          "type": "name",
+          "required": false
+        },
         "date_of_birth": {
           "labels": ["DATE OF BIRTH", "DOB", "D.O.B", "जन्म तिथि"],
           "type": "date",
@@ -180,13 +205,18 @@
           "labels": ["GENDER", "SEX"],
           "type": "gender",
           "required": false
+        },
+        "blood_group": {
+          "labels": ["BLOOD GROUP", "BLOOD TYPE", "BLOOD GRP", "BG"],
+          "type": "blood_group",
+          "required": false
         }
       }
     },
 
     "aadhaar": {
       "identifiers": [
-        "AADHAAR", "AADHAR", "UNIQUE IDENTIFICATION", "UIDAI",
+        "AADHAAR", "AADHAAR NUMBER", "AADHAR", "UNIQUE IDENTIFICATION", "UIDAI",
         "MY AADHAAR", "आधार"
       ],
       "fields": {
@@ -199,6 +229,16 @@
           "labels": ["NAME", "FULL NAME", "नाम"],
           "type": "name",
           "required": true
+        },
+        "father_name": {
+          "labels": ["FATHER'S NAME", "FATHER NAME", "S/O", "SON OF", "D/O", "DAUGHTER OF"],
+          "type": "name",
+          "required": false
+        },
+        "mother_name": {
+          "labels": ["MOTHER'S NAME", "MOTHER NAME", "M/O"],
+          "type": "name",
+          "required": false
         },
         "date_of_birth": {
           "labels": ["DATE OF BIRTH", "DOB", "D.O.B", "YEAR OF BIRTH", "जन्म तिथि"],
@@ -219,6 +259,31 @@
           "labels": ["PINCODE", "PIN CODE", "PIN"],
           "type": "number",
           "required": false
+        },
+        "blood_group": {
+          "labels": ["BLOOD GROUP", "BLOOD TYPE", "BLOOD GRP", "BG"],
+          "type": "blood_group",
+          "required": false
+        },
+        "nationality": {
+          "labels": ["NATIONALITY", "CITIZEN OF", "RESIDENT OF", "COUNTRY"],
+          "type": "text",
+          "required": false
+        },
+        "state": {
+          "labels": ["STATE", "ST.", "STATE CODE", "S/CODE"],
+          "type": "state_code",
+          "required": false
+        },
+        "vid": {
+          "labels": ["VID", "VIRTUAL ID", "VIRTUAL IDENTIFICATION NUMBER", "VID NO"],
+          "type": "vid_number",
+          "required": false
+        },
+        "card_type": {
+          "labels": ["TYPE", "CARD TYPE", "DOCUMENT TYPE", "AADHAAR TYPE"],
+          "type": "text",
+          "required": false
         }
       }
     },
@@ -229,7 +294,7 @@
         "CARTE NATIONALE D'IDENTITÉ", "DNI", "DOCUMENTO NACIONAL DE IDENTIDAD",
         "PERSONALAUSWEIS", "CARTA D'IDENTITÀ", "TARJETA DE IDENTIDAD",
         "CEDULA", "CÉDULA", "KTP", "IC", "NRIC", "CARTE D'IDENTITÉ",
-        "NATIONAL IDENTIFICATION", "ID CARD", "CITIZEN CARD"
+        "NATIONAL IDENTIFICATION", "ID CARD", "CITIZEN CARD", "GOVERNMENT OF"
       ],
       "fields": {
         "id_number": {
@@ -284,6 +349,26 @@
           "labels": ["DATE OF EXPIRY", "EXPIRY DATE", "VALID UNTIL", "FECHA DE VENCIMIENTO", "DATE D'EXPIRATION", "ABLAUFDATUM", "BERLAKU SAMPAI"],
           "type": "date",
           "required": false
+        },
+        "father_name": {
+          "labels": ["FATHER'S NAME", "FATHER NAME", "S/O", "SON OF", "D/O", "DAUGHTER OF"],
+          "type": "name",
+          "required": false
+        },
+        "mother_name": {
+          "labels": ["MOTHER'S NAME", "MOTHER NAME", "M/O"],
+          "type": "name",
+          "required": false
+        },
+        "blood_group": {
+          "labels": ["BLOOD GROUP", "BLOOD TYPE", "BLOOD GRP", "BG"],
+          "type": "blood_group",
+          "required": false
+        },
+        "dna_marker": {
+          "labels": ["DNA", "DNA PROFILE", "DNA MARKER", "GENETIC MARKER"],
+          "type": "dna_marker",
+          "required": false
         }
       }
     },
@@ -337,7 +422,7 @@
         },
         "blood_group": {
           "labels": ["BLOOD GROUP", "BLOOD TYPE", "BLOOD GRP", "BG"],
-          "type": "text",
+          "type": "blood_group",
           "required": false
         }
       }
@@ -378,6 +463,16 @@
           "labels": ["ADDRESS", "RESIDENCE"],
           "type": "address",
           "required": true
+        },
+        "mother_name": {
+          "labels": ["MOTHER'S NAME", "MOTHER NAME", "M/O"],
+          "type": "name",
+          "required": false
+        },
+        "blood_group": {
+          "labels": ["BLOOD GROUP", "BLOOD TYPE", "BLOOD GRP", "BG"],
+          "type": "blood_group",
+          "required": false
         },
         "assembly_constituency": {
           "labels": ["ASSEMBLY CONSTITUENCY", "A.C. NO", "CONSTITUENCY"],
@@ -469,6 +564,10 @@
     "address":         { "description": "Multi-part address string" },
     "gender":          { "description": "M / F / Male / Female / Other / X" },
     "number":          { "description": "Pure numeric value (e.g. pincode)" },
-    "mrz":             { "description": "ICAO Machine Readable Zone line" }
+    "mrz":             { "description": "ICAO Machine Readable Zone line" },
+    "blood_group":     { "description": "ABO+Rh type: A+, AB-, O POS, B NEGATIVE, etc." },
+    "dna_marker":      { "description": "STR allele pairs (D3S1358:15,16) or numeric haplotype string" },
+    "state_code":      { "description": "Indian state/UT 2-letter ISO code — AP, MH, DL, KA, TN, etc." },
+    "vid_number":      { "description": "Aadhaar Virtual ID — 16 digits, optionally grouped 4-4-4-4" }
   }
 }

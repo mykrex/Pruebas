@@ -17,7 +17,7 @@ def main() -> None:
     kie     = KIEEngine(mapping)
 
     # Default sample image — adjust path or accept as CLI arg as needed.
-    image_path = Path(__file__).parent / "ocr" / "public" / "originals" / "visa_p1.png"
+    image_path = Path(__file__).parent / "ocr" / "public" / "originals" / "id.jpg"
     result = process(image_path, ocr, kie, cfg)
 
     print("\n── FINAL RESULT ──")

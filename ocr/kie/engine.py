@@ -112,7 +112,7 @@ class KIEEngine:
     Label matching: exact word-boundary first, then fuzzy (difflib) for OCR errors.
     """
 
-    _DATE_STANDALONE = re.compile(r"^(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4})$")
+    _DATE_STANDALONE = re.compile(r"^(\d{1,2}\s*[\/\-\.]\s*\d{1,2}\s*[\/\-\.]\s*\d{2,4})$")
 
     def __init__(self, mapping: dict) -> None:
         self._mapping = mapping

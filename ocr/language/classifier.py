@@ -77,11 +77,7 @@ def classify_lines(lines: list[TextLine]) -> dict[str, list[TextLine]]:
     for line in lines:
         ratio = _script_ratio(line.text)
 
-        if ratio is None:
-            line.lang = "unknown"
-            groups["unknown"].append(line)
-
-        elif ratio < _THRESH_ENGLISH:
+        if ratio is None or ratio < _THRESH_ENGLISH:
             line.lang = "english"
             groups["english"].append(line)
 
