@@ -7,13 +7,16 @@ public/
 !public/
 ocr/public/
 
+__pycache__/
+
+output/*
+!output/.gitkeep
+
+hf_model/
+Dolphin/
+
 originals/
 paddle/
 easy/
 
 readme2.md
-
-__pycache__/
-
-output/*
-!output/.gitkeep
