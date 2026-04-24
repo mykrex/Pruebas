@@ -414,15 +414,11 @@ def procesar_imagen(ruta_imagen: str, model, processor, device: str,
     }
 
 
-# ─────────────────────────────────────────────
-# PUNTO DE ENTRADA
-# ─────────────────────────────────────────────
-
 if __name__ == "__main__":
     print("Cargando Dolphin-v2...")
     model, processor, device = cargar_modelo(MODEL_PATH)
 
-    resultado = procesar_imagen("public/originals/Indian_IDs_p2.png", model, processor, device)
+    resultado = procesar_imagen("public/originals/visa_p1.png", model, processor, device)
 
     print("\n── PARES CAMPO→VALOR ENCONTRADOS ──")
     print(json.dumps(resultado["pares"], indent=2, ensure_ascii=False))
