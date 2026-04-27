@@ -6,7 +6,7 @@ Entry point — run from the project root:
 import json
 from pathlib import Path
 
-from ocr import Config, PaddleOCRAdapter, KIEEngine, DolphinOCRAdapter
+from ocr import Config, PaddleOCRAdapter, KIEEngine, DolphinOCRAdapter, DotsOCRAdapter
 from ocr.pipeline import load_mapping, process
 
 
@@ -14,7 +14,8 @@ def main() -> None:
     cfg     = Config()
     mapping = load_mapping(config=cfg)
     #ocr     = PaddleOCRAdapter(cfg)
-    ocr = DolphinOCRAdapter(cfg, model_path="./ocr/hf_model", dolphin_repo="./ocr/Dolphin")
+    #ocr = DolphinOCRAdapter(cfg, model_path="./ocr/hf_model", dolphin_repo="./ocr/Dolphin")
+    ocr = DotsOCRAdapter(cfg, model_path="./ocr/DotsOCR")
     kie     = KIEEngine(mapping)
 
     # Default sample image — adjust path or accept as CLI arg as needed.
