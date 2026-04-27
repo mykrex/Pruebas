@@ -1,20 +1,17 @@
 """
-dots.ocr adapter — ocr/engine/dots_ocr.py
-==========================================
 dots.ocr es un VLM de 1.7B parámetros de Xiaohongshu (rednote-hilab).
-A diferencia de Dolphin, NO requiere clonar un repo extra —
-se usa directamente con transformers + qwen_vl_utils.
+Se usa directamente con transformers + qwen_vl_utils.
 
 Instalación:
     pip install transformers qwen_vl_utils Pillow
 
 Descarga del modelo (~3.5GB):
     huggingface-cli download rednote-hilab/dots.ocr --local-dir ./ocr/DotsOCR
-    ⚠️ El nombre del directorio NO puede tener puntos.
-       Usa 'DotsOCR' en lugar de 'dots.ocr'.
+        El nombre del directorio NO puede tener puntos.
+        Usa 'DotsOCR' en lugar de 'dots.ocr'.
 
 Notas de hardware:
-    - flash_attention_2 requiere CUDA — en Apple Silicon (MPS) usamos 'sdpa'
+    - flash_attention_2 requiere CUDA — en MPS usamos 'sdpa'
     - bfloat16 funciona en MPS con PyTorch >= 2.0
     - ~3.5GB de memoria para el modelo (vs ~8GB de Dolphin)
 """
@@ -34,7 +31,7 @@ from .base import OCREngine
 
 
 # Prompt oficial de dots.ocr para parseo completo de documentos.
-# Le pide al modelo que devuelva un JSON con bbox, categoría y texto de cada elemento.
+# Se le pide al modelo que devuelva un JSON con bbox, categoría y texto de cada elemento.
 _PARSE_PROMPT = """\
 Please output the layout information from the document image, \
 including each layout element's bbox, its category, and the corresponding \
@@ -58,9 +55,7 @@ _TEXT_CATEGORIES = {
 
 class DotsOCRAdapter(OCREngine):
     """
-    dots.ocr implementation of OCREngine.
-
-    A diferencia de PaddleOCR (pipeline clásico), dots.ocr es un VLM que
+    Dots.ocr es un VLM que
     procesa la imagen completa y devuelve un JSON con layout estructurado.
     Esto lo hace más preciso en documentos con layout complejo, pero más
     lento en CPU/MPS que los motores clásicos.
@@ -80,7 +75,7 @@ class DotsOCRAdapter(OCREngine):
 
         self._model, self._processor = self._load_model()
 
-    # ── Device detection ──────────────────────────────────────────────────────
+    # ── Device detection ────────
 
     @staticmethod
     def _detect_device() -> str:
@@ -90,14 +85,14 @@ class DotsOCRAdapter(OCREngine):
             return "mps"
         return "cpu"
 
-    # ── Model loading ─────────────────────────────────────────────────────────
+    # ── Model loading ───────────
 
     def _load_model(self):
         from transformers import AutoModelForCausalLM, AutoProcessor
 
         # flash_attention_2 solo funciona en CUDA.
         # En MPS y CPU usamos 'sdpa' (scaled dot-product attention), que es
-        # el fallback estándar de PyTorch y funciona en Apple Silicon.
+        # el fallback estándar de PyTorch.
         attn_impl = "flash_attention_2" if self._device == "cuda" else "sdpa"
 
         # bfloat16 está soportado en MPS desde PyTorch 2.0 y en CUDA.
@@ -124,12 +119,12 @@ class DotsOCRAdapter(OCREngine):
 
         return model, processor
 
-    # ── Preprocessing ─────────────────────────────────────────────────────────
+    # ── Preprocessing ───────────
 
     def preprocess(self, image: np.ndarray) -> np.ndarray:
         """
         dots.ocr fue entrenado con documentos a color.
-        Si la imagen viene en escala de grises (preprocesada), mejora el
+        Si la imagen viene en escala de grises, mejora el
         contraste para facilitar la detección de texto en regiones oscuras.
         """
         from PIL import ImageOps
@@ -141,7 +136,7 @@ class DotsOCRAdapter(OCREngine):
             return np.array(pil)
         return image
 
-    # ── Inference ─────────────────────────────────────────────────────────────
+    # ── Inference ───────────────
 
     def extract(self, image: np.ndarray) -> list[TextLine]:
         from qwen_vl_utils import process_vision_info
@@ -195,7 +190,7 @@ class DotsOCRAdapter(OCREngine):
 
         return self._parse_output(raw_output, image.shape)
 
-    # ── Output parsing ────────────────────────────────────────────────────────
+    # ── Output parsing ───────────────
 
     def _parse_output(self, raw: str, image_shape: tuple) -> list[TextLine]:
         """

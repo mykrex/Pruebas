@@ -14,8 +14,8 @@ def main() -> None:
     cfg     = Config()
     mapping = load_mapping(config=cfg)
     #ocr     = PaddleOCRAdapter(cfg)
-    #ocr = DolphinOCRAdapter(cfg, model_path="./ocr/hf_model", dolphin_repo="./ocr/Dolphin")
-    ocr = DotsOCRAdapter(cfg, model_path="./ocr/DotsOCR")
+    #ocr = DotsOCRAdapter(cfg, model_path="./ocr/DotsOCR")
+    ocr = DolphinOCRAdapter(cfg, model_path="./ocr/hf_model", dolphin_repo="./ocr/Dolphin")
     kie     = KIEEngine(mapping)
 
     # Default sample image — adjust path or accept as CLI arg as needed.
@@ -29,6 +29,9 @@ def main() -> None:
     print("\n── ALL DETECTED LINES ──")
     for line in result["raw_lines"]:
         print(f"[{line.lang:8}] [{line.confidence:.2f}] {line.text}")
+
+    print("\n── BENCHMARK METRICS ──")
+    print(json.dumps(result["metrics"], indent=2))
 
 
 if __name__ == "__main__":

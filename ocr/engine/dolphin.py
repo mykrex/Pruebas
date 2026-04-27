@@ -25,7 +25,7 @@ class DolphinOCRAdapter(OCREngine):
     def preprocess(self, image: np.ndarray) -> np.ndarray:
         """
         Dolphin fue entrenado con documentos a color.
-        Si la imagen viene en escala de grises (preprocesada por el compañero),
+        Si la imagen viene en escala de grises,
         mejora el contraste antes de pasársela.
         """
         pil = PILImage.fromarray(image)
