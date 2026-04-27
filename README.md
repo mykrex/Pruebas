@@ -40,6 +40,12 @@ pip install torch torchvision accelerate qwen_vl_utils opencv-python Pillow pymu
 pip install "transformers==4.51.0"
 ```
 
+### DotsOCR
+
+```python
+huggingface-cli download rednote-hilab/dots.ocr --local-dir ./ocr/DotsOCR
+```
+
 ---
 
 ## KIE
