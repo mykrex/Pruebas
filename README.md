@@ -40,6 +40,8 @@ pip install torch torchvision accelerate qwen_vl_utils opencv-python Pillow pymu
 pip install "transformers==4.51.0"
 ```
 
+### Notas del modelo
+
 ---
 
 ## KIE
