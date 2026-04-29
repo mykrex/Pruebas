@@ -7,6 +7,12 @@ public/
 !public/
 ocr/public/
 
+originals/
+paddle/
+easy/
+
+readme2.md
+
 __pycache__/
 
 output/*
@@ -14,9 +20,5 @@ output/*
 
 hf_model/
 Dolphin/
+DotsOCR/
 
-originals/
-paddle/
-easy/
-
-readme2.md

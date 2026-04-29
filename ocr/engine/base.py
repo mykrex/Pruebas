@@ -12,6 +12,10 @@ class OCREngine(ABC):
     language classification, KIE, or visualisation code.
     """
 
+    def preprocess(self, image: np.ndarray) -> np.ndarray:
+        """Override if the engine needs custom preprocessing."""
+        return image  # default: pass-through
+
     @abstractmethod
     def extract(self, image: np.ndarray) -> list[TextLine]:
         """Run OCR on an RGB numpy image. Return one TextLine per detected region."""
