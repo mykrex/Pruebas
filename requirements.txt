@@ -1,0 +1,39 @@
+# ─────────────────────────────────────────────
+# Core
+# ─────────────────────────────────────────────
+numpy
+Pillow
+
+# ─────────────────────────────────────────────
+# OCR — PaddleOCR
+# Install PaddlePaddle first (CPU build from official index):
+#   pip install paddlepaddle==3.2.0 -i https://www.paddlepaddle.org.cn/packages/stable/cpu/
+# Then:
+# ─────────────────────────────────────────────
+paddleocr
+
+# ─────────────────────────────────────────────
+# OCR — dots.ocr & Dolphin (VLM engines)
+# Both are based on Qwen2.5-VL and use the same stack.
+# ─────────────────────────────────────────────
+torch
+torchvision
+transformers==4.51.0
+accelerate
+qwen_vl_utils
+
+# ─────────────────────────────────────────────
+# Visualisation
+# ─────────────────────────────────────────────
+opencv-python
+
+# ─────────────────────────────────────────────
+# Dolphin repo dependencies
+# (only needed if using the Dolphin engine)
+# ─────────────────────────────────────────────
+Levenshtein
+pymupdf
+jieba
+albumentations==1.4.0
+bs4
+matplotlib
