@@ -12,6 +12,7 @@ paddle/
 easy/
 
 readme2.md
+readmeC.md
 
 __pycache__/
 
@@ -22,3 +23,5 @@ hf_model/
 Dolphin/
 DotsOCR/
 
+utils/
+others/
