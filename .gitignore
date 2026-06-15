@@ -11,8 +11,9 @@ originals/
 paddle/
 easy/
 
-readme2.md
-readmeC.md
+readme_fm.md
+CONTEXT.md
+readme_j.md
 
 __pycache__/
 
